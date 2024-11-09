@@ -16,10 +16,9 @@ export class User {
 
   @Column({ type: 'datetime', nullable: true })
   last_login: Date;
-  
+
   @Column({ nullable: true })
   ip_address: string;
-  
 
   @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;

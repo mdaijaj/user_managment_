@@ -16,6 +16,8 @@ export class LoginDto {
   })
   @IsString()
   @IsNotEmpty()
-  @Length(4, 20, { message: 'Password must be between 4 and 20 characters long' })
+  @Length(4, 20, {
+    message: 'Password must be between 4 and 20 characters long',
+  })
   password: string;
 }

@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UsersService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 
@@ -10,7 +15,7 @@ export class AuthService {
   ) {}
 
   async signup(mobile: string, name: string, password: string) {
-    try{
+    try {
       const newUser = await this.usersService.create(mobile, name, password);
       return {
         message: 'Registration successfully',
@@ -20,25 +25,25 @@ export class AuthService {
           name: newUser.name,
         },
       };
-    }
-    catch (error) {
+    } catch (error) {
       if (error instanceof BadRequestException) {
         throw error;
       }
-      throw new InternalServerErrorException('An error occurred while signing up. Please try again.');
+      throw new InternalServerErrorException(
+        'An error occurred while signing up. Please try again.',
+      );
     }
   }
 
-
   async login(mobile: string, password: string) {
-    try{
+    try {
       const user = await this.usersService.validateUser(mobile, password);
       if (!user) {
         throw new UnauthorizedException('Invalid credentials');
       }
       const payload = { mobile: user.mobile, sub: user.id };
       const token = this.jwtService.sign(payload);
-  
+
       return {
         message: 'Login successful',
         access_token: token,
@@ -48,12 +53,13 @@ export class AuthService {
           name: user.name,
         },
       };
-    }
-    catch (error) {
+    } catch (error) {
       if (error instanceof BadRequestException) {
         throw error;
       }
-      throw new InternalServerErrorException('An error occurred while signing up. Please try again.');
+      throw new InternalServerErrorException(
+        'An error occurred while signing up. Please try again.',
+      );
     }
   }
 }

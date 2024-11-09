@@ -1,5 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNotEmpty, Length, Matches, IsBoolean, IsOptional, IsNumber, IsNumberString, IsMobilePhone } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  Length,
+  Matches,
+  IsBoolean,
+  IsOptional,
+  IsNumber,
+  IsNumberString,
+  IsMobilePhone,
+} from 'class-validator';
 
 export class SignupRequestDto {
   @ApiProperty({
@@ -17,7 +27,8 @@ export class SignupRequestDto {
   @IsNumberString()
   @IsNotEmpty()
   @Matches(/^[6-9]\d{9}$/, {
-    message: 'Mobile number must be a 10-digit number starting with 6, 7, 8, or 9',
+    message:
+      'Mobile number must be a 10-digit number starting with 6, 7, 8, or 9',
   })
   mobile: string;
 
@@ -27,7 +38,9 @@ export class SignupRequestDto {
   })
   @IsString()
   @IsNotEmpty()
-  @Length(4, 20, { message: 'Password must be between 4 and 20 characters long' })
+  @Length(4, 20, {
+    message: 'Password must be between 4 and 20 characters long',
+  })
   password: string;
 
   @ApiProperty({

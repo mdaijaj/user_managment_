@@ -8,11 +8,11 @@ async function bootstrap() {
     .setTitle('user_management')
     .setDescription('API description')
     .setVersion('1.0')
-    .addTag('auth') 
+    .addTag('auth')
     .build();
-  
+
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api/doc', app, document);  
+  SwaggerModule.setup('api/doc', app, document);
 
   await app.listen(process.env.PORT ?? 3000);
 }

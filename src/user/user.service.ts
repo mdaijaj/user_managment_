@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { User } from './user.entity';
 
 @Injectable()
-export class  UsersService {
+export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
@@ -19,16 +19,17 @@ export class  UsersService {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const userdetails = await this.findOne(mobile);
-    if(userdetails){
+    if (userdetails) {
       throw new BadRequestException('user mobile number already exists.');
     }
 
-    const user = this.usersRepository.create({ mobile, name, password: hashedPassword });
+    const user = this.usersRepository.create({
+      mobile,
+      name,
+      password: hashedPassword,
+    });
     return this.usersRepository.save(user);
   }
-
-
-
 
   async validateUser(mobile: string, password: string): Promise<User | null> {
     const user = await this.findOne(mobile);
