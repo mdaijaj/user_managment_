@@ -65,7 +65,7 @@ yarn install
 Set up environment variables (e.g., database connection settings) in .env:
 ```
 SECRET_KEY = "23123213"
-DB_PASSWORD = aadilraza339
+DB_PASSWORD = 5434535
 DB_NAME = employees
 DB_HOST = localhost
 ```
