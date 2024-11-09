@@ -1,99 +1,95 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+User Management API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A secure REST API built with NestJS for user registration and login using mobile number and password credentials. This API is designed to be easily integrated with frontend applications, providing a structured JSON response format and enforcing robust security measures.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Objective
 
-## Description
+Implement user signup and login endpoints with detailed user information returned (excluding sensitive details like passwords).
+Ensure password security by using hashing techniques.
+Leverage TypeScript for type safety.
+Ensure seamless database interactions using MySQL (or preferred database).
+Technologies Used
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+NestJS - Backend framework
+TypeScript - Programming language
+MySQL - Relational database (or preferred alternative)
+bcrypt - For password hashing
+Database Setup
 
-## Project setup
+Create a MySQL database named employees.
+Create a users table with the following schema:
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    mobile VARCHAR(20) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    status BOOLEAN NOT NULL DEFAULT FALSE,
+    last_login TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ip_address VARCHAR(50) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+API Endpoints
 
-```bash
-$ yarn install
-```
+Signup API (POST /signup)
+Request Body:
+name - User's full name
+mobile - User's unique mobile number
+password - User's chosen password
+Response:
+JSON response with the new user’s details (excluding password).
+Functionality:
+Validates uniqueness of the mobile number.
+Hashes the password securely with bcrypt.
+Inserts the new user into the database.
+Returns a success response with user details (excluding password).
+Login API (POST /login)
+Request Body:
+mobile - User's unique mobile number
+password - User's password
+Response:
+JSON response with user details (excluding password) if login is successful.
+Error response if credentials are invalid.
+Functionality:
+Validates mobile number and password.
+Retrieves the user from the database.
+Verifies the password using bcrypt.
+Returns a success response with user details (excluding password) on successful login.
+Project Setup
 
-## Compile and run the project
+Clone the repository and navigate to the project directory:
+git clone https://github.com/yourusername/user-management-api.git
+cd user-management-api
+Install dependencies:
+npm install
+Set up environment variables (e.g., database connection settings) in .env:
+DATABASE_HOST=localhost
+DATABASE_USER=your_db_user
+DATABASE_PASSWORD=your_db_password
+DATABASE_NAME=employees
+Run the database migrations or sync to ensure the users table is created.
+Start the server:
+npm run start
+Security Considerations
 
-```bash
-# development
-$ yarn run start
+Password Hashing: Passwords are hashed using bcrypt for secure storage.
+Rate Limiting: Implement rate limiting to prevent brute-force attacks (not covered here, but recommended).
+Input Validation: Use ValidationPipe to validate and sanitize user input.
+Authentication: For session management, consider JWT or another authentication strategy for production use.
+Testing
 
-# watch mode
-$ yarn run start:dev
+Unit Tests: Write tests for controllers, services, and entities to verify proper functionality and error handling.
+Integration Tests: Use Jest or similar frameworks to simulate API requests and ensure correct response handling.
+Example JSON Response
 
-# production mode
-$ yarn run start:prod
-```
+For both login and signup requests (on success):
 
-## Run tests
+{
+    "id": 1,
+    "name": "John Doe",
+    "mobile": "******1234",
+    "status": true
+}
+Additional Notes
 
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
-```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ yarn install -g mau
-$ mau deploy
-```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+The mobile number is partially masked in responses for security.
+Ensure to exclude sensitive fields like password in all responses.
