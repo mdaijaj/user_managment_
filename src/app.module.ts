@@ -10,14 +10,14 @@ import { AuthModule } from './auth/auth.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: process.env.DB_HOST,
       port: 3306,
       username: 'root',
-      password: 'password',
-      database: 'employees',
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
       entities: [User],
       synchronize: true,
-      connectTimeout: 20000,// Set to false in production
+      connectTimeout: 20000,
     }),
     UsersModule,
     AuthModule,

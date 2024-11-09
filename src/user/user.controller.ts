@@ -1,4 +1,3 @@
-// src/users/users.controller.ts
 import { Controller, Get, UseGuards, Request } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 

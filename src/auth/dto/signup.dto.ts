@@ -1,5 +1,3 @@
-// src/signup-request.dto.ts
-
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsNotEmpty, Length, Matches, IsBoolean, IsOptional, IsNumber, IsNumberString, IsMobilePhone } from 'class-validator';
 

@@ -1,4 +1,3 @@
-// src/auth/auth.module.ts
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
@@ -12,8 +11,8 @@ import { UsersModule } from 'src/user/user.module';
     UsersModule,
     PassportModule,
     JwtModule.register({
-      secret: 'your_jwt_secret_key', // Replace with environment variable in production
-      signOptions: { expiresIn: '6h' },
+      secret: process.env.SECRET_KEY, 
+      signOptions: { expiresIn: '12h' },
     }),
   ],
   providers: [AuthService, JwtStrategy],
