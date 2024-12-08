@@ -1,3 +1,4 @@
+nestjs, typescript
 # User Management API
 Implement user signup and login endpoints with detailed user information returned (excluding sensitive details like passwords).
 Ensure password security by using hashing techniques.
